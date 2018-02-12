@@ -14,6 +14,7 @@ Object.keys(codeTranslate)
 class Controls {
     constructor() {
         this.keyRegistry = {};
+        this.enabled = true;
         window.addEventListener('keydown', e => this.handleKey(e));
     }
     listen(keyDisp, fn) {
@@ -35,9 +36,11 @@ class Controls {
         }
     }
     handleKey(e) {
-        const handler = this.keyRegistry[e.which];
-        if (handler) {
-            handler();
+        if (this.enabled) {
+            const handler = this.keyRegistry[e.which];
+            if (handler) {
+                handler();
+            }
         }
     }
 }

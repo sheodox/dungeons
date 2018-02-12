@@ -26,7 +26,7 @@ class Moveable {
             return directionDeltas[dir];
         }
         else {
-            return [0, 0];
+            return false;
         }
     }
 }

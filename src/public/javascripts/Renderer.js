@@ -15,11 +15,18 @@ class Renderer {
         function sprite(name) {
             return `/images/sprites/${name}.png`
         }
+        function ui(name) {
+            return `/images/ui/${name}.png`
+        }
         this.tileSet = {};
         this.loads = [];
         this.load('ground', tile('ground'));
+        this.load('blood', tile('blood'));
         this.load('wall', tile('wall'));
         this.load('player', sprite('player'));
+        this.load('snake', sprite('snake'));
+        this.load('lose-sign', ui('lose-sign'));
+        this.load('win-sign', ui('win-sign'));
         this.c = 0;
         this.d = 0;
         const computeSizes = () => {
@@ -47,19 +54,20 @@ class Renderer {
             img.src = src;
         }))
     }
+    showSign(name) {
+        this.sign = name;
+    }
     render() {
         //tiles
         const t = this.world.tiles;
         for (let i = 0; i < this.cTiles; i++ ) {
             for (let j = 0; j < this.dTiles; j++) {
-        // for (let i = this.c; i < this.world.iMax; i++) {
-        //     for (let j = this.d; j < this.world.jMax; j++) {
                 const tileX = this.c + i,
                     tileY = this.d + j;
                 this.ctx.drawImage(
                     this.tileSet[(
                         tileX < 0 || tileY < 0 || tileX >= this.world.iMax || tileY >= this.world.jMax ?
-                            'wall' : t[i][j]
+                            'wall' : t[tileX][tileY]
                     )],
                     i * this.tileSize,
                     j * this.tileSize,
@@ -85,6 +93,14 @@ class Renderer {
                 (sprite.y - this.d)* this.tileSize,
                 this.tileSize,
                 this.tileSize
+            )
+        }
+
+        //ui
+        if (this.sign) {
+            this.ctx.drawImage(
+                this.tileSet[this.sign],
+                0,0
             )
         }
     }

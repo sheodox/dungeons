@@ -18,15 +18,19 @@ class World {
         // 1. the location is within bounds
         // 2. the sprite has no collision
         // 3. the sprite has collision but isn't at this location
+        const spriteThere = this.getSpriteAtLocation(x, y);
         return (x >= 0 && y >= 0 && y < this.jMax && x < this.iMax) &&
-            (!this.sprites.some(moveable => {
-                return moveable.collision || (moveable.x === x && moveable.y === y)
-            }));
+            (!spriteThere || !spriteThere.collision);
+    }
+    getSpriteAtLocation(x, y) {
+        return this.sprites.filter(sprite => {
+            return sprite.x === x && sprite.y === y;
+        })
     }
     spawnSprite(moveable) {
         this.sprites.push(moveable);
     }
     despawnSprite(moveable) {
-        const i = this.sprites.indexOf(moveable);
+        this.sprites.splice(this.sprites.indexOf(moveable), 1);
     }
 }

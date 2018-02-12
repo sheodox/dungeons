@@ -14,7 +14,10 @@ class Player extends Moveable {
     }
     tryMove(dir) {
         const deltas = super.tryMove(dir);
-        renderer.c += deltas[0];
-        renderer.d += deltas[1];
+        if (deltas) {
+            renderer.c += deltas[0];
+            renderer.d += deltas[1];
+            game.playerMoved();
+        }
     }
 }
